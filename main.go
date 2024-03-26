@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+// Ветка после слияния
+
 func main() {
 	input := make(chan int)
 	go read(input)
@@ -31,7 +33,6 @@ func main() {
 	sig := <-c
 	log.Printf("Got %s signal\n", sig)
 	os.Exit(0)
-
 }
 
 type RingBuffer struct {
@@ -65,7 +66,7 @@ func (r *RingBuffer) Get() []int {
 	}
 	r.m.Lock()
 	defer r.m.Unlock()
-	var output []int = r.array[:r.pos]
+	output := r.array[:r.pos]
 	r.pos = 0
 	return output
 
