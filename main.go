@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+// Здесь не будет никаких изменений, по условнию задания мне нужно было создать просто ещё одну ветку
+
 func main() {
 	input := make(chan int)
 	go read(input)
@@ -30,7 +32,6 @@ func main() {
 	case sig := <-c:
 		fmt.Printf("Got %s signal\n", sig)
 		os.Exit(0)
-
 	}
 }
 
@@ -65,7 +66,7 @@ func (r *RingBuffer) Get() []int {
 	}
 	r.m.Lock()
 	defer r.m.Unlock()
-	var output []int = r.array[:r.pos]
+	output := r.array[:r.pos]
 	r.pos = 0
 	return output
 
