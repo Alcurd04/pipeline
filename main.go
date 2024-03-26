@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Ветка после слияния
+// branch version 1.0
 
 func main() {
 	input := make(chan int)
