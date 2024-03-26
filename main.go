@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/signal"
 	"sync"
@@ -11,27 +12,26 @@ import (
 func main() {
 	input := make(chan int)
 	go read(input)
+	log.Println("\nStep #1\nEnter 5 numbers into the buffer")
 
 	filterNegativeChanel := make(chan int)
 	go deleteNegative(input, filterNegativeChanel)
 	divTreeChan := make(chan int)
 	go removeDivTree(filterNegativeChanel, divTreeChan)
 
-	size := 5
+	size := 6
 	r := NewRingBuffer(size)
 	go writeToBuffer(divTreeChan, r)
 
-	delay := 5
+	delay := 6
 	ticker := time.NewTicker(time.Second * time.Duration(delay))
 	go writeToConsole(r, ticker)
-	c := make(chan os.Signal)
+	c := make(chan os.Signal, 6)
 	signal.Notify(c, os.Interrupt)
-	select {
-	case sig := <-c:
-		fmt.Printf("Got %s signal\n", sig)
-		os.Exit(0)
+	sig := <-c
+	log.Printf("Got %s signal\n", sig)
+	os.Exit(0)
 
-	}
 }
 
 type RingBuffer struct {
@@ -76,7 +76,7 @@ func read(input chan int) {
 		var v int
 		_, err := fmt.Scanf("%d\n", &v)
 		if err != nil {
-			fmt.Println("this is not a number")
+			log.Println("\nStep No. 404\nthis is not a number")
 		} else {
 			input <- v
 		}
@@ -108,7 +108,7 @@ func writeToConsole(r *RingBuffer, t *time.Ticker) {
 	for range t.C {
 		buffer := r.Get()
 		if len(buffer) > 0 {
-			fmt.Println("The Buffer is ", buffer)
+			log.Println("\nThe Buffer is", buffer)
 		}
 	}
 }
