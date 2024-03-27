@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// branch version 1.0
+// Окончательная версия проекта с двухступенчатым докером
 
 func main() {
 	input := make(chan int)
